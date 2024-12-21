@@ -1,0 +1,1 @@
+<span class="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
