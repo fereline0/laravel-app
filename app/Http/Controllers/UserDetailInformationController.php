@@ -4,17 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserDetailInformationUpdateRequest;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 
 class UserDetailInformationController extends Controller
 {
-    use AuthorizesRequests;
-
     public function update(UserDetailInformationUpdateRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $this->authorize('edit', $user);
 
         $userDetailInformation = $user->detail_information()->firstOrNew();
 
@@ -38,7 +34,6 @@ class UserDetailInformationController extends Controller
     public function deleteAvatar($id)
     {
         $user = User::findOrFail($id);
-        $this->authorize('edit', $user);
 
         if ($user->detail_information && $user->detail_information->image) {
             Storage::disk('public')->delete($user->detail_information->image);

@@ -8,6 +8,7 @@
                     </x-link>
                 @endforeach
             </div>
+            <h2 class="font-semibold text-2xl">{{ $currentCategory->name }}</h2>
             <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-2">
                 @foreach ($books as $book)
                     <x-card>

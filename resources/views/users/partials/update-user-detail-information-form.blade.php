@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Обновите свою детальную информацию.") }}
+            {{ __('Обновите свою детальную информацию.') }}
         </p>
     </header>
 
@@ -15,38 +15,36 @@
         @method('patch')
 
         <div>
-            <x-image-uploader
-                id="image"
-                src="{{ $user->detail_information->image ? Storage::url($user->detail_information->image) : null }}" 
-                alt="{{ $user->name }}" 
-                initials="{{ strtoupper(substr($user->name, 0, 1)) }}" 
-            />
+            <x-image-uploader id="image"
+                src="{{ $user->detail_information->image ? Storage::url($user->detail_information->image) : null }}"
+                alt="{{ $user->name }}" initials="{{ strtoupper(substr($user->name, 0, 1)) }}" />
         </div>
 
         <div>
             <x-input-label for="about" :value="__('О себе')" />
-            <x-text-input id="about" name="about" type="text" class="mt-1 block w-full"
-                :value="old('about', $user->detail_information->about)" />
+            <x-text-input id="about" name="about" type="text" class="mt-1 block w-full" :value="old('about', $user->detail_information->about)" />
             <x-input-error class="mt-2" :messages="$errors->get('about')" />
         </div>
 
         <div>
             <x-input-label for="gender" :value="__('Пол')" />
             <x-select id="gender" name="gender" class="mt-1 block w-full">
-                <option value="none" {{ old('gender', $user->detail_information->gender) === 'none' ? 'selected' : ''
-                    }}>{{ __('Выберите пол') }}</option>
-                <option value="male" {{ old('gender', $user->detail_information->gender) === 'male' ? 'selected' : ''
-                    }}>{{ __('Мужской') }}</option>
-                <option value="female" {{ old('gender', $user->detail_information->gender) === 'female' ? 'selected' :
-                    '' }}>{{ __('Женский') }}</option>
+                <option value="none"
+                    {{ old('gender', $user->detail_information->gender) === 'none' ? 'selected' : '' }}>
+                    {{ __('Выберите пол') }}</option>
+                <option value="male"
+                    {{ old('gender', $user->detail_information->gender) === 'male' ? 'selected' : '' }}>
+                    {{ __('Мужской') }}</option>
+                <option value="female"
+                    {{ old('gender', $user->detail_information->gender) === 'female' ? 'selected' : '' }}>
+                    {{ __('Женский') }}</option>
             </x-select>
             <x-input-error class="mt-2" :messages="$errors->get('gender')" />
         </div>
 
         <div>
             <x-input-label for="birthday" :value="__('Дата рождения')" />
-            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full"
-                :value="old('birthday', $user->detail_information->birthday)" />
+            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $user->detail_information->birthday)" />
             <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
         </div>
 
@@ -61,8 +59,8 @@
             <x-primary-button>{{ __('Сохранить') }}</x-primary-button>
 
             @if (session('status') === 'detail-updated')
-            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                class="text-sm text-gray-600 dark:text-gray-400">{{ __('Сохранено') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Сохранено') }}</p>
             @endif
         </div>
     </form>

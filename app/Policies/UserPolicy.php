@@ -6,19 +6,13 @@ use App\Models\User;
 
 class UserPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    public function canSeeAllEditActions(User $user, User $model)
     {
-        //
+        return $user->id === $model->id;
     }
 
-    /**
-     * Check if the authenticated user is the same as the model user.
-     */
     public function edit(User $user, User $model)
     {
-        return $user->id === $model->id || $user->role === 'admin';
+        return $this->canSeeAllEditActions($user, $model) || $user->hasPermissionTo('edit users');
     }
 }

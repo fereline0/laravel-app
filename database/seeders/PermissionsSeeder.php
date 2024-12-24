@@ -23,7 +23,15 @@ class PermissionsSeeder extends Seeder
             'create books',
             'edit users',
             'delete users',
-            'create users',
+            'edit publishers',
+            'delete publishers',
+            'create publishers',
+            'edit categories',
+            'delete categories',
+            'create categories',
+            'edit authors',
+            'delete authors',
+            'create authors',
         ];
 
         foreach ($permissions as $permission) {

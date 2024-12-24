@@ -48,7 +48,7 @@ class UserController extends Controller
         return Redirect::route('users.edit', $id)->with('status', 'profile-updated');
     }
 
-    public function destroy(Request $request, $id): RedirectResponse
+    public function destroyWithValidation(Request $request, $id): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -65,5 +65,18 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function destroy($id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+
+        if (Auth::user()->id == $user->id) {
+            Auth::logout();
+        }
+
+        $user->delete();
+
+        return Redirect::to('/')->with('status', 'user-deleted.');
     }
 }

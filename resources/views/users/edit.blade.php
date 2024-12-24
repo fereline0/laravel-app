@@ -19,17 +19,19 @@
                 </div>
             </x-card>
 
-            <x-card>
-                <div class="max-w-xl">
-                    @include('users.partials.update-password-form')
-                </div>
-            </x-card>
+            @can('canSeeAllEditActions', $user)
+                <x-card>
+                    <div class="max-w-xl">
+                        @include('users.partials.update-password-form')
+                    </div>
+                </x-card>
 
-            <x-card>
-                <div class="max-w-xl">
-                    @include('users.partials.delete-user-form')
-                </div>
-            </x-card>
+                <x-card>
+                    <div class="max-w-xl">
+                        @include('users.partials.delete-user-form')
+                    </div>
+                </x-card>
+            @endcan
         </div>
     </div>
 </x-app-layout>
