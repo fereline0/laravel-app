@@ -11,6 +11,14 @@
             </x-card>
         </div>
 
+        <div>
+            <form method="GET" action="{{ route('admin.users') }}" class="flex items-center gap-2">
+                <x-text-input type="text" name="search" placeholder="Поиск по имени или email"
+                    class="block w-full" />
+                <x-primary-button type="submit">Поиск</x-primary-button>
+            </form>
+        </div>
+
         <div class="space-y-4">
             @foreach ($users as $user)
                 <x-card class="flex flex-wrap gap-4 justify-between items-center">
@@ -23,13 +31,13 @@
                     </div>
                     @if (auth()->user()->can('edit users') || auth()->user()->can('delete users'))
                         <div class="flex gap-2">
-                            @can('edit users', $user)
-                                <form action="{{ route('users.edit', $user->id) }}" method="GET">
+                            @can('edit users')
+                                <form action="{{ route('users.edit.general', $user->id) }}" method="GET">
                                     <x-primary-button type="submit">Редактировать</x-primary-button>
                                 </form>
                             @endcan
 
-                            @can('delete users', $user)
+                            @can('delete users')
                                 <x-danger-button x-data=""
                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion-{{ $user->id }}')">Удалить</x-danger-button>
                             @endcan
@@ -37,7 +45,7 @@
                     @endif
                 </x-card>
 
-                @can('delete users', $user)
+                @can('delete users')
                     <x-modal name="confirm-user-deletion-{{ $user->id }}" focusable>
                         <form method="post" action="{{ route('users.destroy', $user->id) }}" class="p-6">
                             @csrf

@@ -1,10 +1,18 @@
 <x-admin-layout>
     <div class="space-y-4">
-        <div class="flex justify-end">
-            <form action="{{ route('categories.create') }}" method="GET">
+        @can('create categories')
+            <form class="flex justify-end" action="{{ route('categories.create') }}" method="GET">
                 <x-primary-button type="submit">Создать</x-primary-button>
             </form>
+        @endcan
+
+        <div>
+            <form method="GET" action="{{ route('admin.categories') }}" class="flex items-center gap-2">
+                <x-text-input type="text" name="search" placeholder="Поиск по имени категории" class="block w-full" />
+                <x-primary-button type="submit">Поиск</x-primary-button>
+            </form>
         </div>
+
         @foreach ($categories as $category)
             <x-card class="flex flex-wrap gap-4 justify-between items-center">
                 <div>
@@ -13,13 +21,15 @@
                     </h3>
                     <p class="dark:text-white">{{ $category->created_at->format('d.m.Y H:i') }}</p>
                 </div>
-                <div class="flex gap-2">
-                    <form action="{{ route('categories.edit', $category->id) }}" method="GET">
-                        <x-primary-button type="submit">Редактировать</x-primary-button>
-                    </form>
-                    <x-danger-button x-data=""
-                        x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion-{{ $category->id }}')">Удалить</x-danger-button>
-                </div>
+                @if (auth()->user()->can('edit categories') || auth()->user()->can('delete categories'))
+                    <div class="flex gap-2">
+                        <form action="{{ route('categories.edit', $category->id) }}" method="GET">
+                            <x-primary-button type="submit">Редактировать</x-primary-button>
+                        </form>
+                        <x-danger-button x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion-{{ $category->id }}')">Удалить</x-danger-button>
+                    </div>
+                @endif
             </x-card>
 
             <x-modal name="confirm-category-deletion-{{ $category->id }}" focusable>

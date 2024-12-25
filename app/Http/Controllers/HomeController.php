@@ -11,7 +11,25 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $categories = Category::all();
-        $books = Book::paginate(20);
+        $search = $request->input('search');
+        $sort = $request->input('sort');
+        $maxPrice = $request->input('max_price');
+
+        $query = Book::query();
+
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        if ($sort) {
+            $query->orderBy('price', $sort);
+        }
+
+        $books = $query->paginate(20);
 
         return view('home', compact('categories', 'books'));
     }

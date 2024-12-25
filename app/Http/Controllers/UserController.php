@@ -22,13 +22,42 @@ class UserController extends Controller
         return view('users.show', compact('user'));
     }
 
-    public function edit($id): View
+    public function general($id): View
     {
         $user = User::findOrFail($id);
 
         $this->authorize('edit', $user);
 
-        return view('users.edit', compact('user'));
+        return view('users.edit.general', compact('user'));
+    }
+
+    public function detailInformation($id): View
+    {
+        $user = User::findOrFail($id);
+
+        $this->authorize('edit', $user);
+
+        return view('users.edit.detail-information', compact('user'));
+    }
+
+    public function updatePassword($id): View
+    {
+        $user = User::findOrFail($id);
+
+        $this->authorize('canSeeAllEditActions', $user);
+        $this->authorize('edit', $user);
+
+        return view('users.edit.update-password', compact('user'));
+    }
+
+    public function deleteAccount($id): View
+    {
+        $user = User::findOrFail($id);
+
+        $this->authorize('canSeeAllEditActions', $user);
+        $this->authorize('edit', $user);
+
+        return view('users.edit.delete-account', compact('user'));
     }
 
     public function update(ProfileUpdateRequest $request, $id): RedirectResponse
@@ -45,7 +74,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return Redirect::route('users.edit', $id)->with('status', 'profile-updated');
+        return redirect()->back()->with('status', 'profile-updated');
     }
 
     public function destroyWithValidation(Request $request, $id): RedirectResponse

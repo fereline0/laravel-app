@@ -18,18 +18,22 @@
 
 <body class="font-sans text-gray-900 antialiased bg-white dark:bg-black">
     @include('layouts.navigation')
+
     @isset($header)
-    <header>
-        <div class="max-w-7xl mx-auto py-6 px-4">
-            {{ $header }}
-        </div>
-    </header>
+        <header>
+            <div class="max-w-7xl mx-auto py-6 px-4">
+                {{ $header }}
+            </div>
+        </header>
     @endisset
-    <div class="w-full pt-6 max-w-lg mx-auto px-6">
+
+    <div class="w-full pt-6 max-w-lg mx-auto px-6 mb-6">
         <x-card>
             {{ $slot }}
         </x-card>
     </div>
+
+    <x-footer-layout />
 </body>
 
 </html>

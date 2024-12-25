@@ -12,36 +12,78 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function users(): View
+    public function users(Request $request): View
     {
-        $users = User::paginate(20);
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->paginate(20);
         $registeredTodayCount = User::whereDate('created_at', today())->count();
         $totalUsersCount = User::count();
 
         return view('admin.users', compact('users', 'registeredTodayCount', 'totalUsersCount'));
     }
 
-    public function categories(): View
+    public function categories(Request $request): View
     {
-        $categories = Category::paginate(20);
+        $query = Category::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $categories = $query->paginate(20);
+
         return view('admin.categories', compact('categories'));
     }
 
-    public function publishers(): View
+    public function publishers(Request $request): View
     {
-        $publishers = Publisher::paginate(20);
+        $query = Publisher::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $publishers = $query->paginate(20);
+
         return view('admin.publishers', compact('publishers'));
     }
 
-    public function authors(): View
+    public function authors(Request $request): View
     {
-        $authors = Author::paginate(20);
+        $query = Author::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $authors = $query->paginate(20);
+
         return view('admin.authors', compact('authors'));
     }
 
-    public function books(): View
+    public function books(Request $request): View
     {
-        $books = Book::paginate(20);
+        $query = Book::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        $books = $query->paginate(20);
+
         return view('admin.books', compact('books'));
     }
 }

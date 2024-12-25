@@ -24,7 +24,7 @@
                             <x-primary-dropdown-link :href="route('users.show', Auth::user()->id)">
                                 {{ Auth::user()->name }}
                             </x-primary-dropdown-link>
-                            <x-primary-dropdown-link :href="route('users.edit', Auth::user()->id)">
+                            <x-primary-dropdown-link :href="route('users.edit.general', Auth::user()->id)">
                                 {{ __('Редактировать') }}
                             </x-primary-dropdown-link>
                             <x-primary-dropdown-link href="{{ route('cart.index') }}">

@@ -1,12 +1,19 @@
 <x-admin-layout>
     <div class="space-y-4">
-        <div class="flex justify-end">
-            @can('create publishers')
-                <form action="{{ route('publishers.create') }}" method="GET">
-                    <x-primary-button type="submit">Создать</x-primary-button>
-                </form>
-            @endcan
+        @can('create publishers')
+            <form class="flex justify-end" action="{{ route('publishers.create') }}" method="GET">
+                <x-primary-button type="submit">Создать</x-primary-button>
+            </form>
+        @endcan
+
+        <div>
+            <form method="GET" action="{{ route('admin.publishers') }}" class="flex items-center space-x-2">
+                <x-text-input type="text" name="search" placeholder="Поиск по имени издательства"
+                    class="block w-full" />
+                <x-primary-button type="submit">Поиск</x-primary-button>
+            </form>
         </div>
+
         @foreach ($publishers as $publisher)
             <x-card class="flex flex-wrap gap-4 justify-between items-center">
                 <div>
@@ -30,7 +37,7 @@
                 @endif
             </x-card>
 
-            @can('delete publishers', $publisher)
+            @can('delete publishers')
                 <x-modal name="confirm-publisher-deletion-{{ $publisher->id }}" focusable>
                     <form method="post" action="{{ route('publishers.destroy', $publisher->id) }}" class="p-6">
                         @csrf

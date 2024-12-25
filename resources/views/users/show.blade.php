@@ -52,17 +52,9 @@
                         </div>
                         <div>
                             @can('edit users')
-                                <x-dropdown align="right" width="48">
-                                    <x-slot name="trigger">
-                                        <x-primary-button>{{ __('Действия') }}</x-primary-button>
-                                    </x-slot>
-
-                                    <x-slot name="content">
-                                        <x-primary-dropdown-link :href="route('users.edit', $user->id)">
-                                            {{ __('Редактировать') }}
-                                        </x-primary-dropdown-link>
-                                    </x-slot>
-                                </x-dropdown>
+                                <form action="{{ route('users.edit.general', $user->id) }}" method="GET" class="inline">
+                                    <x-primary-button type="submit">{{ __('Редактировать') }}</x-primary-button>
+                                </form>
                             @endcan
                         </div>
                     </div>

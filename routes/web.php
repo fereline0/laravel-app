@@ -17,19 +17,24 @@ Route::prefix('users/{id}')->group(function () {
     Route::get('', [UserController::class, 'show'])->name('users.show');
 
     Route::middleware('auth')->group(function () {
-        Route::get('edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::prefix('edit')->group(function () {
+            Route::get('general', [UserController::class, 'general'])->name('users.edit.general');
+            Route::get('detail-information', [UserController::class, 'detailInformation'])->name('users.edit.detail-information');
+            Route::get('update-password', [UserController::class, 'updatePassword'])->name('users.edit.update-password');
+            Route::get('delete-account', [UserController::class, 'deleteAccount'])->name('users.edit.delete-account');
+        });
+
         Route::patch('', [UserController::class, 'update'])->name('users.update');
         Route::delete('destroyWithValidation', [UserController::class, 'destroyWithValidation'])->name('users.destroyWithValidation');
         Route::delete('', [UserController::class, 'destroy'])->name('users.destroy')->middleware('permission:delete users');
 
         Route::prefix('details')->group(function () {
             Route::patch('', [UserDetailInformationController::class, 'update'])->name('users.userDetailInformation.update');
-            Route::delete('image', [UserDetailInformationController::class, 'deleteAvatar'])->name('users.userDetailInformation.deleteAvatar');
         });
     });
 });
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('categories', [AdminController::class, 'categories'])->name('admin.categories');
     Route::get('publishers', [AdminController::class, 'publishers'])->name('admin.publishers');
@@ -38,8 +43,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 Route::prefix('publishers')->group(function () {
-    Route::get('{id}', [PublisherController::class, 'show'])->name('publishers.show');
-
     Route::middleware('permission:create publishers')->group(function () {
         Route::get('create', [PublisherController::class, 'create'])->name('publishers.create');
         Route::post('', [PublisherController::class, 'store'])->name('publishers.store');
@@ -53,11 +56,11 @@ Route::prefix('publishers')->group(function () {
     Route::middleware('permission:delete publishers')->group(function () {
         Route::delete('{id}', [PublisherController::class, 'destroy'])->name('publishers.destroy');
     });
+
+    Route::get('{id}', [PublisherController::class, 'show'])->name('publishers.show');
 });
 
 Route::prefix('categories')->group(function () {
-    Route::get('{id}', [CategoryController::class, 'show'])->name('categories.show');
-
     Route::middleware('permission:create categories')->group(function () {
         Route::get('create', [CategoryController::class, 'create'])->name('categories.create');
         Route::post('', [CategoryController::class, 'store'])->name('categories.store');
@@ -71,11 +74,11 @@ Route::prefix('categories')->group(function () {
     Route::middleware('permission:delete categories')->group(function () {
         Route::delete('{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
+
+    Route::get('{id}', [CategoryController::class, 'show'])->name('categories.show');
 });
 
 Route::prefix('authors')->group(function () {
-    Route::get('{id}', [AuthorController::class, 'show'])->name('authors.show');
-
     Route::middleware('permission:create authors')->group(function () {
         Route::get('create', [AuthorController::class, 'create'])->name('authors.create');
         Route::post('', [AuthorController::class, 'store'])->name('authors.store');
@@ -89,10 +92,26 @@ Route::prefix('authors')->group(function () {
     Route::middleware('permission:delete authors')->group(function () {
         Route::delete('{id}', [AuthorController::class, 'destroy'])->name('authors.destroy');
     });
+
+    Route::get('{id}', [AuthorController::class, 'show'])->name('authors.show');
 });
 
-Route::prefix('books/{id}')->group(function () {
-    Route::get('', [BookController::class, 'show'])->name('books.show');
+Route::prefix('books')->group(function () {
+    Route::middleware('permission:create books')->group(function () {
+        Route::get('create', [BookController::class, 'create'])->name('books.create');
+        Route::post('', [BookController::class, 'store'])->name('books.store');
+    });
+
+    Route::middleware('permission:edit books')->group(function () {
+        Route::get('{id}/edit', [BookController::class, 'edit'])->name('books.edit');
+        Route::patch('{id}', [BookController::class, 'update'])->name('books.update');
+    });
+
+    Route::middleware('permission:delete books')->group(function () {
+        Route::delete('{id}', [BookController::class, 'destroy'])->name('books.destroy');
+    });
+
+    Route::get('{id}', [BookController::class, 'show'])->name('books.show');
 });
 
 Route::middleware('auth')->prefix('cart')->group(function () {

@@ -23,6 +23,8 @@
                                 <x-link
                                     href="{{ route('books.show', $purchase->book->id) }}">{{ $purchase->book->title }}</x-link>
                             </h3>
+                            <p class="font-bold dark:text-white">
+                                {{ number_format($purchase->book->price, 2, ',', ' ') }} ₽</p>
                             <x-link
                                 href="{{ route('authors.show', $purchase->book->author->id) }}">{{ $purchase->book->author->name }}</x-link>
                         </x-card>

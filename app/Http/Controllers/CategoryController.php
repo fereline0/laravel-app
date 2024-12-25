@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -21,11 +22,29 @@ class CategoryController extends Controller
         return redirect()->back()->with('status', 'category-created');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $categories = Category::all();
         $currentCategory = Category::findOrFail($id);
-        $books = $currentCategory->books()->paginate(10);
+        $search = $request->input('search');
+        $sort = $request->input('sort');
+        $maxPrice = $request->input('max_price');
+
+        $query = $currentCategory->books();
+
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        if ($sort) {
+            $query->orderBy('price', $sort);
+        }
+
+        $books = $query->paginate(10);
 
         return view('categories.show', compact('categories', 'currentCategory', 'books'));
     }

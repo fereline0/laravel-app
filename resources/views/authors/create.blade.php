@@ -29,7 +29,7 @@
             <div>
                 <x-input-label for="image" :value="__('Изображение автора')" />
                 <x-image-uploader id="image" src="{{ old('image') }}" alt="{{ old('name') }}"
-                    initials="{{ strtoupper(substr(old('name', 'Новый автор'), 0, 1)) }}" />
+                    initials="{{ strtoupper(substr(old('name', 'New author'), 0, 1)) }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('image')" />
             </div>
 

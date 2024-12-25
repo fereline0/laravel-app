@@ -30,17 +30,4 @@ class UserDetailInformationController extends Controller
 
         return redirect()->back()->with('status', 'detail-updated');
     }
-
-    public function deleteAvatar($id)
-    {
-        $user = User::findOrFail($id);
-
-        if ($user->detail_information && $user->detail_information->image) {
-            Storage::disk('public')->delete($user->detail_information->image);
-            $user->detail_information->image = null;
-            $user->detail_information->save();
-        }
-
-        return redirect()->back()->with('status', 'image-deleted');
-    }
 }
