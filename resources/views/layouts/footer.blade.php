@@ -1,4 +1,4 @@
-<footer class="bg-gray-800 text-white py-6">
+<footer class="bg-gray-900 text-white py-6">
     <div class="max-w-7xl text-white mx-auto spacer-y-10 px-4">
         <div class="space-y-4">
             <div>

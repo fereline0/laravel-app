@@ -13,10 +13,9 @@
                         <div class="w-full flex justify-between gap-4">
                             <div>
                                 <h3 class="text-lg dark:text-white font-semibold">{{ $book->title }}</h3>
-                                <p class="dark:text-white">{{ $book->description }}</p>
                                 <p class="font-bold dark:text-white">{{ number_format($book->price, 2, ',', ' ') }} ₽
                                 </p>
-                                <p class="dark:text-white flex gap-2 items-center">
+                                <p class="dark:text-white flex flex-wrap gap-2 items-center">
                                     @foreach ($book->categories as $category)
                                         @if (!$loop->first)
                                             <x-text-separator />
@@ -30,6 +29,7 @@
                             </div>
                         </div>
                     </div>
+                    <p class="dark:text-white">{{ $book->description }}</p>
                     @auth
                         <div>
                             @if ($book->purchases()->where('user_id', Auth::id())->exists())

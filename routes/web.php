@@ -30,6 +30,7 @@ Route::prefix('users/{id}')->group(function () {
 
         Route::prefix('details')->group(function () {
             Route::patch('', [UserDetailInformationController::class, 'update'])->name('users.userDetailInformation.update');
+            Route::delete('image', [UserDetailInformationController::class, 'deleteImage'])->name('users.userDetailInformation.image.delete');
         });
     });
 });
@@ -94,6 +95,8 @@ Route::prefix('authors')->group(function () {
     });
 
     Route::get('{id}', [AuthorController::class, 'show'])->name('authors.show');
+
+    Route::delete('{id}/image', [AuthorController::class, 'deleteImage'])->name('authors.image.delete');
 });
 
 Route::prefix('books')->group(function () {
@@ -112,6 +115,8 @@ Route::prefix('books')->group(function () {
     });
 
     Route::get('{id}', [BookController::class, 'show'])->name('books.show');
+
+    Route::delete('{id}/image', [BookController::class, 'deleteImage'])->name('book.image.delete');
 });
 
 Route::middleware('auth')->prefix('cart')->group(function () {

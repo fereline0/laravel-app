@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Author;
 use App\Models\Publisher;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -37,13 +38,17 @@ class BookController extends Controller
         $book->price = $request->price;
 
         if ($request->hasFile('image')) {
+            if ($book->image) {
+                Storage::disk('public')->delete($book->image);
+            }
+            
             $book->image = $request->file('image')->store('books', 'public');
         }
 
         $book->save();
         $book->categories()->sync($request->categories);
 
-        return redirect()->route('books.show', $book->id)->with('status', 'book-updated');
+        return redirect()->back()->with('status', 'book-updated');
     }
 
     public function create()
@@ -69,15 +74,35 @@ class BookController extends Controller
         }
 
         $book->save();
-
         $book->categories()->attach($request->categories);
 
-        return redirect()->route('books.create')->with('status', 'book-created');
+        return redirect()->back()->with('status', 'book-created');
+    }
+
+    public function deleteImage($id)
+    {
+        $book = Book::findOrFail($id);
+
+        if ($book->image) {
+            Storage::disk('public')->delete($book->image);
+            
+            $book->image = null;
+            $book->save();
+            
+            return redirect()->back()->with('status', 'image-deleted');
+        }
+
+        return redirect()->back()->with('error', 'image-not-found');
     }
 
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
+        
+        if ($book->image) {
+            Storage::disk('public')->delete($book->image);
+        }
+
         $book->delete();
 
         return redirect()->back()->with('status', 'book-deleted');

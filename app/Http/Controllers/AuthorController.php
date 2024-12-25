@@ -65,6 +65,22 @@ class AuthorController extends Controller
         return redirect()->back()->with('status', 'author-updated');
     }
 
+    public function deleteImage($id)
+    {
+        $author = Author::findOrFail($id);
+
+        if ($author->image) {
+            Storage::disk('public')->delete($author->image);
+            
+            $author->image = null;
+            $author->save();
+            
+            return redirect()->back()->with('status', 'image-deleted');
+        }
+
+        return redirect()->back()->with('error', 'image-not-found');
+    }
+
     public function destroy($id)
     {
         $author = Author::findOrFail($id);
