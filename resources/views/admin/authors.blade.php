@@ -8,7 +8,8 @@
 
         <div>
             <form method="GET" action="{{ route('admin.authors') }}" class="flex items-center space-x-2">
-                <x-text-input type="text" name="search" placeholder="Поиск по имени автора" class="block w-full" />
+                <x-text-input type="text" value="{{ request('search') }}" name="search"
+                    placeholder="Поиск по имени автора" class="block w-full" />
                 <x-primary-button type="submit">Поиск</x-primary-button>
             </form>
         </div>
