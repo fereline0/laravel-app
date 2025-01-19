@@ -8,26 +8,34 @@
                 <p onclick="copyToClipboard('{{ $password->value }}')" class="blur-md cursor-pointer select-none">
                     {{ $password->value }}</p>
             </div>
-            <x-bladewind::dropmenu>
-                <a href="{{ route('dashboard.passwords.edit', $password->id) }}">
-                    <x-bladewind::dropmenu-item>Изменить</x-bladewind::dropmenu-item>
-                </a>
-                <x-bladewind::dropmenu-item onclick="showModal('delete')">Удалить</x-bladewind::dropmenu-item>
-            </x-bladewind::dropmenu>
+            @canany(['edit password', 'delete password'])
+                <x-bladewind::dropmenu>
+                    @can('edit password')
+                        <a href="{{ route('dashboard.passwords.edit', $password->id) }}">
+                            <x-bladewind::dropmenu-item>Изменить</x-bladewind::dropmenu-item>
+                        </a>
+                    @endcan
+                    @can('delete password')
+                        <x-bladewind::dropmenu-item onclick="showModal('delete')">Удалить</x-bladewind::dropmenu-item>
+                    @endcan
+                </x-bladewind::dropmenu>
+            @endcanany
         </div>
     </x-bladewind::card>
 </x-dashboard-layout>
 
-<x-bladewind::modal type="error" title="Вы уверены, что хотите удалить данный пароль?" name="delete"
-    show_action_buttons="false">
-    Данное действие необратимо, восстановить пароль после удаления будет невозможно.
-    <form class="flex justify-end" method="POST" action="{{ route('dashboard.passwords.destroy', $password->id) }}">
-        @csrf
-        @method('DELETE')
+@can('delete password')
+    <x-bladewind::modal type="error" title="Вы уверены, что хотите удалить данный пароль?" name="delete"
+        show_action_buttons="false">
+        Данное действие необратимо, восстановить пароль после удаления будет невозможно.
+        <form class="flex justify-end" method="POST" action="{{ route('dashboard.passwords.destroy', $password->id) }}">
+            @csrf
+            @method('DELETE')
 
-        <x-bladewind::button can_submit="true" color="red">Удалить</x-bladewind::button>
-    </form>
-</x-bladewind::modal>
+            <x-bladewind::button can_submit="true" color="red">Удалить</x-bladewind::button>
+        </form>
+    </x-bladewind::modal>
+@endcan
 
 <script>
     function copyToClipboard(text) {

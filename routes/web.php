@@ -28,7 +28,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         Route::get('create', [PasswordController::class, 'create'])->name('create')->middleware('permission:create password');
         Route::post('', [PasswordController::class, 'store'])->name('store')->middleware('permission:create password');
         Route::prefix('{id}')->group(function () {
-            Route::get('', [PasswordController::class, 'show'])->name('show');
+            Route::get('', [PasswordController::class, 'show'])->name('show')->middleware('check.password.access:{id}');
             Route::get('edit', [PasswordController::class, 'edit'])->name('edit')->middleware('permission:edit password');
             Route::put('', [PasswordController::class, 'update'])->name('update')->middleware('permission:edit password');
             Route::delete('', [PasswordController::class, 'destroy'])->name('destroy')->middleware('permission:delete password');
