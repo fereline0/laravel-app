@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(function () {
-    Route::prefix('announcements')->name('announcements.')->middleware('check.any.permission:create announcement,edit announcement,delete announcement')->group(function () {
+    Route::prefix('announcements')->name('announcements.')->middleware('permission:create announcement|edit announcement|delete announcement')->group(function () {
         Route::get('', [AnnouncementController::class, 'index'])->name('index');
         Route::get('create', [AnnouncementController::class, 'create'])->name('create')->middleware('permission:create announcement');
         Route::post('', [AnnouncementController::class, 'store'])->name('store')->middleware('permission:create announcement');
@@ -23,7 +23,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
-    Route::prefix('passwords')->name('passwords.')->middleware('check.any.permission:create password,edit password,delete password')->group(function () {
+    Route::prefix('passwords')->name('passwords.')->middleware('permission:create password|edit password|delete password')->group(function () {
         Route::get('', [PasswordController::class, 'index'])->name('index');
         Route::get('create', [PasswordController::class, 'create'])->name('create')->middleware('permission:create password');
         Route::post('', [PasswordController::class, 'store'])->name('store')->middleware('permission:create password');
@@ -35,7 +35,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
-    Route::prefix('categories')->name('categories.')->middleware('check.any.permission:create category,edit category,delete category')->group(function () {
+    Route::prefix('categories')->name('categories.')->middleware('permission:create category|edit category|delete category')->group(function () {
         Route::get('', [CategoryController::class, 'index'])->name('index');
         Route::get('create', [CategoryController::class, 'create'])->name('create')->middleware('permission:create category');
         Route::post('', [CategoryController::class, 'store'])->name('store')->middleware('permission:create category');
@@ -46,7 +46,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
-    Route::prefix('cabinets')->name('cabinets.')->middleware('check.any.permission:create cabinet,edit cabinet,delete cabinet')->group(function () {
+    Route::prefix('cabinets')->name('cabinets.')->middleware('permission:create cabinet|edit cabinet|delete cabinet')->group(function () {
         Route::get('', [CabinetController::class, 'index'])->name('index');
         Route::get('create', [CabinetController::class, 'create'])->name('create')->middleware('permission:create cabinet');
         Route::post('', [CabinetController::class, 'store'])->name('store')->middleware('permission:create cabinet');
@@ -57,7 +57,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
-    Route::prefix('devices')->name('devices.')->middleware('check.any.permission:create device,edit device,delete device')->group(function () {
+    Route::prefix('devices')->name('devices.')->middleware('permission:create device|edit device|delete device')->group(function () {
         Route::get('', [DeviceController::class, 'index'])->name('index');
         Route::get('create', [DeviceController::class, 'create'])->name('create')->middleware('permission:create device');
         Route::post('', [DeviceController::class, 'store'])->name('store')->middleware('permission:create device');
@@ -68,7 +68,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
-    Route::prefix('inventories')->name('inventories.')->middleware('check.any.permission:create inventory,edit inventory,delete inventory')->group(function () {
+    Route::prefix('inventories')->name('inventories.')->middleware('permission:create inventory|edit inventory|delete inventory')->group(function () {
         Route::get('', [InventoryController::class, 'index'])->name('index');
         Route::get('create', [InventoryController::class, 'create'])->name('create')->middleware('permission:create inventory');
         Route::post('', [InventoryController::class, 'store'])->name('store')->middleware('permission:create inventory');
