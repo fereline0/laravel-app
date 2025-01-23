@@ -15,7 +15,7 @@ class PasswordRequest extends FormRequest
     {
         return [
             'source' => 'required|string|max:255',
-            'value' => 'required|string',
+            'value' => 'required|string|max:255',
             'privacy' => 'boolean',
         ];
     }
