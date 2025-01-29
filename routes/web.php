@@ -81,7 +81,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
 });
 
 Route::prefix('announcements')->name('announcements.')->group(function () {
-    Route::get('{id}', [AnnouncementController::class, 'show'])->name('show')->middleware('permission:view announcement');
+    Route::get('{id}', [AnnouncementController::class, 'show'])->name('show');
 });
 
 require __DIR__ . '/auth.php';
