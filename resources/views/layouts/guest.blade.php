@@ -19,7 +19,7 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col justify-center items-center pt-6">
+    <div class="min-h-screen flex flex-col justify-center items-center pt-6 break-all">
         <div class="w-full max-w-md">
             <div class="p-4">
                 <x-link href="{{ route('welcome') }}" class="flex items-center gap-2">
