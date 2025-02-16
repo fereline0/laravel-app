@@ -19,7 +19,6 @@ class InventoryController extends Controller
 
         $query = Inventory::with(['device', 'cabinet']);
 
-        // Фильтрация по устройству
         if ($request->filled('device_id')) {
             $query->where('device_id', $request->device_id);
         }

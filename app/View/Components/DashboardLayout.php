@@ -23,32 +23,37 @@ class DashboardLayout extends Component
             [
                 "url" => "dashboard.announcements.index",
                 "label" => "Объявления",
-                "permissions" => ['view announcement', 'create announcement', 'edit announcement', 'delete announcement'],
+                "permissions" => ['create announcement', 'edit announcement', 'delete announcement'],
+            ],
+            [
+                "url" => "dashboard.server-metrics.index",
+                "label" => "Серверные показатели",
+                "permissions" => ['view server metric'],
             ],
             [
                 "url" => "dashboard.passwords.index",
                 "label" => "Пароли",
-                "permissions" => ['view password', 'create password', 'edit password', 'delete password'],
+                "permissions" => ['create password', 'edit password', 'delete password'],
             ],
             [
                 "url" => "dashboard.categories.index",
                 "label" => "Категории",
-                "permissions" => ['view category', 'create category', 'edit category', 'delete category'],
+                "permissions" => ['create category', 'edit category', 'delete category'],
             ],
             [
                 "url" => "dashboard.cabinets.index",
                 "label" => "Кабинеты",
-                "permissions" => ['view cabinet', 'create cabinet', 'edit cabinet', 'delete cabinet'],
+                "permissions" => ['create cabinet', 'edit cabinet', 'delete cabinet'],
             ],
             [
                 "url" => "dashboard.devices.index",
                 "label" => "Устройства",
-                "permissions" => ['view device', 'create device', 'edit device', 'delete device'],
+                "permissions" => ['create device', 'edit device', 'delete device'],
             ],
             [
                 "url" => "dashboard.inventories.index",
                 "label" => "Инвенторизации",
-                "permissions" => ['view inventory', 'create inventory', 'edit inventory', 'delete inventory'],
+                "permissions" => ['create inventory', 'edit inventory', 'delete inventory'],
             ]
         ];
 

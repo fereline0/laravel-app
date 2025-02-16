@@ -18,6 +18,8 @@ class PermissionsSeeder extends Seeder
       'edit announcement',
       'delete announcement',
 
+      'view server metric',
+
       'create password',
       'edit password',
       'delete password',
@@ -47,7 +49,7 @@ class PermissionsSeeder extends Seeder
     $helper = Role::create(['name' => 'helper']);
     $admin = Role::create(['name' => 'admin']);
 
-    $helper->givePermissionTo(['create announcement', 'create password', 'create device', 'create category', 'create inventory', 'create cabinet']);
+    $helper->givePermissionTo(['create announcement', 'create password', 'create device', 'create category', 'create inventory', 'create cabinet', 'view server metric']);
     $admin->givePermissionTo(Permission::all());
   }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\ServerMetricsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(PermissionsSeeder::class);
+        $this->call([
+            PermissionsSeeder::class,
+            ServerMetricsSeeder::class,
+        ]);
     }
 }

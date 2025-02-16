@@ -19,7 +19,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen">
+    <div class="min-h-screen bg-slate-50">
         @include('layouts.navigation')
 
         <x-bladewind::notification />

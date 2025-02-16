@@ -6,6 +6,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ServerMetricController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
             Route::put('', [AnnouncementController::class, 'update'])->name('update')->middleware('permission:edit announcement');
             Route::delete('', [AnnouncementController::class, 'destroy'])->name('destroy')->middleware('permission:delete announcement');
         });
+    });
+
+    Route::prefix('server-metrics')->name('server-metrics.')->middleware('permission:view server metric')->group(function () {
+        Route::get('', [ServerMetricController::class, 'index'])->name('index');
     });
 
     Route::prefix('passwords')->name('passwords.')->middleware('permission:create password|edit password|delete password')->group(function () {

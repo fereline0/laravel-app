@@ -3,7 +3,7 @@
         <div class="flex justify-between gap-4">
             <div class="space-y-1">
                 <h2 class="font-semibold text-xl leading-tight">{{ $password->source }}</h2>
-                <p>{{ Auth()->user()->id == $password->user->id ? 'Вы' : $password->user->name }}</p>
+                <p>{{ Auth()->user()->id == $password->user->id ? 'Опубликовано вами' : $password->user->name }}</p>
                 <p class="text-gray-500">{{ $password->created_at->locale('ru')->diffForHumans() }}</p>
                 <p onclick="copyToClipboard('{{ $password->value }}')" class="blur-md cursor-pointer select-none">
                     {{ $password->value }}</p>

@@ -17,7 +17,7 @@
                     <x-link href="{{ route('announcements.show', $announcement->id) }}">
                         <h2 class="font-semibold text-xl leading-tight">{{ $announcement->title }}</h2>
                     </x-link>
-                    <p>{{ $announcement->user->name }}</p>
+                    <p>{{ Auth()->user()->id == $announcement->user->id ? 'Опубликовано вами' : $announcement->user->name }}</p>
                     <p>{{ $announcement->created_at->locale('ru')->diffForHumans() }}</p>
                 </div>
             </x-bladewind::card>
