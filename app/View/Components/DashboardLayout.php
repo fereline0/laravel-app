@@ -26,6 +26,11 @@ class DashboardLayout extends Component
                 "permissions" => ['create announcement', 'edit announcement', 'delete announcement'],
             ],
             [
+                "url" => "dashboard.requests.index",
+                "label" => "Обращения",
+                "permissions" => ['edit request', 'delete request'],
+            ],
+            [
                 "url" => "dashboard.server-metrics.index",
                 "label" => "Серверные показатели",
                 "permissions" => ['view server metric'],

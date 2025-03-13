@@ -18,6 +18,9 @@ class PermissionsSeeder extends Seeder
       'edit announcement',
       'delete announcement',
 
+      'edit request status',
+      'delete request',
+
       'view server metric',
 
       'create password',

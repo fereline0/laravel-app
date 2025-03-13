@@ -20,7 +20,7 @@
                 <div class="flex justify-between gap-4">
                     <div class="space-y-1">
                         <h2 class="font-semibold text-xl leading-tight">{{ $cabinet->name }}</h2>
-                        <p>Было создано {{ $cabinet->created_at->locale('ru')->diffForHumans() }}</p>
+                        <p class="text-gray-500">Было создано {{ $request->created_at->locale('ru')->diffForHumans() }}</p>
                     </div>
                     @canany(['edit cabinet', 'delete cabinet'])
                         <x-bladewind::dropmenu>

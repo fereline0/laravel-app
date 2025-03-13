@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
-use Illuminate\Http\Request;
+use App\Models\Request;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
 {
-    public function index(Request $request)
+    public function index(HttpRequest $request)
     {
         $sortOptions = [
             ['label' => 'Сначала новые', 'value' => 'desc'],
@@ -33,6 +35,17 @@ class WelcomeController extends Controller
 
         $announcements = $query->paginate(20);
 
-        return view('index', compact('announcements', 'sortOptions'));
+        $requestQuery = Request::where('user_id', Auth::id());
+
+        if ($request->filled('request_sort')) {
+            $requestSort = $request->input('request_sort');
+            $requestQuery->orderBy('created_at', $requestSort);
+        } else {
+            $requestQuery->orderBy('created_at', 'desc');
+        }
+
+        $requests = $requestQuery->paginate(20);
+
+        return view('index', compact('announcements', 'sortOptions', 'requests'));
     }
 }

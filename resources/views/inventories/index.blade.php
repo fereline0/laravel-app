@@ -22,7 +22,7 @@
                         <h2 class="font-semibold text-xl leading-tight">{{ $inventory->device->name }}</h2>
                         <p>Количество: {{ $inventory->quantity }}</p>
                         <p>Кабинет: {{ $inventory->cabinet->name }}</p>
-                        <p>Было создано {{ $inventory->created_at->locale('ru')->diffForHumans() }}</p>
+                        <p class="text-gray-500">Было создано {{ $request->created_at->locale('ru')->diffForHumans() }}</p>
                     </div>
                     @canany(['edit inventory', 'delete inventory'])
                         <x-bladewind::dropmenu>

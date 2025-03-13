@@ -22,9 +22,9 @@ class ServerMetricsSeeder extends Seeder
             for ($hour = 0; $hour < 24; $hour++) {
                 ServerMetric::create([
                     'server_name' => $server,
-                    'cpu_usage' => rand(0, 1),
-                    'memory_usage' => rand(0, 1),
-                    'disk_usage' => rand(0, 1),
+                    'cpu_usage' => round(mt_rand(0, 100) / 100, 2),
+                    'memory_usage' => round(mt_rand(0, 100) / 100, 2),
+                    'disk_usage' => round(mt_rand(0, 100) / 100, 2),
                     'created_at' => Carbon::now()->subHours($hour),
                 ]);
             }

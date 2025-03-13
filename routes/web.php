@@ -6,6 +6,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\RequestController; // Добавляем контроллер для запросов
 use App\Http\Controllers\ServerMetricController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         Route::get('create', [PasswordController::class, 'create'])->name('create')->middleware('permission:create password');
         Route::post('', [PasswordController::class, 'store'])->name('store')->middleware('permission:create password');
         Route::prefix('{id}')->group(function () {
-            Route::get('', [PasswordController::class, 'show'])->name('show')->middleware('check.password.access:{id}');
+            Route::get('', [PasswordController::class, 'show'])->name('show')->middleware('check.password.access');
             Route::get('edit', [PasswordController::class, 'edit'])->name('edit')->middleware('permission:edit password');
             Route::put('', [PasswordController::class, 'update'])->name('update')->middleware('permission:edit password');
             Route::delete('', [PasswordController::class, 'destroy'])->name('destroy')->middleware('permission:delete password');
@@ -62,6 +63,14 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
         });
     });
 
+    Route::prefix('requests')->name('requests.')->middleware('permission:edit request status|delete request')->group(function () {
+        Route::get('', [RequestController::class, 'index'])->name('index');
+        Route::prefix('{id}')->group(function () {
+            Route::delete('', [RequestController::class, 'destroy'])->name('destroy')->middleware('permission:delete request');
+            Route::post('toggle-status', [RequestController::class, 'toggleStatus'])->name('toggleStatus')->middleware('permission:edit request status');
+        });
+    }); 
+
     Route::prefix('devices')->name('devices.')->middleware('permission:create device|edit device|delete device')->group(function () {
         Route::get('', [DeviceController::class, 'index'])->name('index');
         Route::get('create', [DeviceController::class, 'create'])->name('create')->middleware('permission:create device');
@@ -83,6 +92,12 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth')->group(functi
             Route::delete('', [InventoryController::class, 'destroy'])->name('destroy')->middleware('permission:delete inventory');
         });
     });
+});
+
+Route::prefix('requests')->name('requests.')->middleware('auth')->group(function () {
+    Route::get('create', [RequestController::class, 'create'])->name('create');
+    Route::post('', [RequestController::class, 'store'])->name('store');
+    Route::get('{id}', [RequestController::class, 'show'])->name('show')->middleware('check.request.access');
 });
 
 Route::prefix('announcements')->name('announcements.')->group(function () {

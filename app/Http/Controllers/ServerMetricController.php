@@ -15,6 +15,19 @@ class ServerMetricController extends Controller
             ->get()
             ->groupBy('server_name');
 
-        return view('server-metrics.index', compact('metrics', 'selectedDate'));
+        $chartData = [];
+        foreach ($metrics as $serverName => $serverMetrics) {
+            $chartData[$serverName] = [
+                'safeName' => str_replace([' ', '-', '.', ':'], '_', $serverName),
+                'labels' => $serverMetrics->pluck('created_at')->map(function($date) {
+                    return \Carbon\Carbon::parse($date)->format('H:i');
+                }),
+                'cpu' => $serverMetrics->pluck('cpu_usage'),
+                'memory' => $serverMetrics->pluck('memory_usage'),
+                'disk' => $serverMetrics->pluck('disk_usage'),
+            ];
+        }
+
+        return view('server-metrics.index', compact('chartData', 'selectedDate'));
     }
 }

@@ -1,13 +1,6 @@
 <x-app-layout>
     <div class="space-y-4">
-        <div class="bg-white/70 overflow-hidden sticky top-20 z-30 backdrop-blur rounded-lg">
-            <x-bladewind::tab-group name="tabs">
-                <x-slot:headings>
-                    <x-bladewind::tab-heading url="{{ route('welcome') }}"
-                        active="{{ request()->routeIs('welcome') }}" label="Объявления" />
-                </x-slot:headings>
-            </x-bladewind::tab-group>
-        </div>
+        <h2 class="text-xl font-semibold">Объявления</h2>
         <form method="GET" action="{{ route('welcome') }}">
             <x-bladewind::input type="text" name="search" label="Введите поисковый запрос"
                 value="{{ request('search') }}" class="rounded-md" />
@@ -22,10 +15,32 @@
                         <h2 class="font-semibold text-xl leading-tight">{{ $announcement->title }}</h2>
                     </x-link>
                     <p>{{ Auth()->user() && Auth()->user()->id == $announcement->user->id ? 'Опубликовано вами' : $announcement->user->name }}</p>
-                    <p>{{ $announcement->created_at->locale('ru')->diffForHumans() }}</p>
+                    <p class="text-gray-500">Было создано {{ $announcement->created_at->locale('ru')->diffForHumans() }}</p>
                 </div>
             </x-bladewind::card>
         @endforeach
         {{ $announcements->links() }}
+
+        @auth
+            <h2 class="text-xl font-semibold">Ваши обращения</h2>
+            <div class="flex justify-end">
+                <a href="{{ route('requests.create') }}">
+                    <x-bladewind::button>Создать новое обращение</x-bladewind::button>
+                </a>
+            </div>
+            @foreach ($requests as $request)
+                <x-bladewind::card>
+                    <div class="space-y-1">
+                        <x-link href="{{ route('requests.show', $request->id) }}">
+                            <h2 class="font-semibold text-xl leading-tight">{{ $request->title }}</h2>
+                        </x-link>
+                        <p>{{ Auth()->user() && Auth()->user()->id == $request->user->id ? 'Опубликовано вами' : $request->user->name }}</p>
+                        <p>{{ $request->is_closed ? 'Закрыто' : 'Открыто' }}</p>
+                        <p class="text-gray-500">Было создано {{ $request->created_at->locale('ru')->diffForHumans() }}</p>
+                    </div>
+                </x-bladewind::card>
+            @endforeach
+            {{ $requests->links() }}
+        @endauth
     </div>
 </x-app-layout>
